@@ -56,19 +56,13 @@ class TicTacToeBoard:
 
 # By AvaGu
 def mini_max_decision(Board,humanval,cpuval):
-    # for col in range(3):
-    #     for row in range(3):
-    #         if board[row][col] == 'N'
-    #             board[row][col] = cpuval
     (v,min_row,min_col) = max_value(Board,humanval,cpuval)          
     return (min_row,min_col)
 
 def min_value(Board,humanval,cpuval):
     if Board.winner() == 'O':
-        # print "1"
         return (1,-1,-1)
     elif Board.winner() == 'X':
-        # print "-1"
         return (-1,-1,-1)
     else:
         if Board.full_board():
@@ -78,44 +72,27 @@ def min_value(Board,humanval,cpuval):
             for col in range(3):
                 for row in range(3):
                     if Board.board[row][col] == 'N':
-                        # Board.PrintBoard()
-                        # print str(row) +  " : " + str(col)
                         Board.board[row][col] = humanval
                         (maximum,i,j) = max_value(Board,humanval,cpuval)
-                        # print str(maximum) + " : " + str(i) + " : " + str(j)
-                        # print "max: " + str(maximum)
-                        # print "v: " + str(v)
-                        # print i
-                        # print j
                         if maximum < v:
-                            # print " maimum < v"
                             v = maximum
                             (max_row,max_col) = (row,col)
                         Board.board[row][col] = 'N'
-                        # print "end one iteration"
-    # print "returning:"
-    # print (v,max_row,max_col)
             return (v,max_row,max_col)
 
 def max_value(Board,humanval,cpuval):
-    # print "max_value"
     if Board.winner() == 'O':
-        # print "1"
         return (1,-1,-1)
     elif Board.winner() == 'X':
-        # print "-1"
         return (-1,-1,-1)
     else:
         if Board.full_board():
-            # print "0"
             return (0,-1,-1)
         else:
             v = -2
             for col in range(3):
                 for row in range(3):
                     if Board.board[row][col] == 'N':
-                        # Board.PrintBoard()
-                        # print str(row) +  " : " + str(col)
                         Board.board[row][col] = cpuval
                         (minimum,i,j) = min_value(Board,humanval,cpuval)
                         if v < minimum:
