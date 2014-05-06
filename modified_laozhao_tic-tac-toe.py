@@ -13,8 +13,6 @@ class TicTacToeBoard:
         print(self.board[0][1] + "|" + self.board[1][1] + "|" + self.board[2][1])
         
         print(self.board[0][2] + "|" + self.board[1][2] + "|" + self.board[2][2])
-
-        # print self.convertBoardToString()
         
     def play_square(self, col, row, val):
         self.playHistory.append((val, (col, row)))
@@ -29,8 +27,6 @@ class TicTacToeBoard:
                 if(self.board[i][j]=='N'):
                     return False
         return True
-    
-
 
     #if there is a winner this will return their symbol (either 'X' or 'O'),
     #otherwise it will return 'N'
@@ -50,12 +46,16 @@ class TicTacToeBoard:
             return self.board[2][0]
         return 'N'
 
+
+global totalVisit
+
 # By AvaGu
 def mini_max_decision(Board,humanval,cpuval):
-    (v,min_row,min_col) = max_value(Board,humanval,cpuval)          
+    current_min=2
+    (v,min_row,min_col) = max_value(Board,current_min,humanval,cpuval)          
     return (min_row,min_col)
 
-def min_value(Board,humanval,cpuval):
+def min_value(Board,current_max,humanval,cpuval):
     Board.totalVisit +=1
     if Board.winner() == 'O':
         return (1,-1,-1)
@@ -66,18 +66,26 @@ def min_value(Board,humanval,cpuval):
             return (0,-1,-1)
         else:
             v = 2
+            
             for col in range(3):
                 for row in range(3):
                     if Board.board[row][col] == 'N':
                         Board.board[row][col] = humanval
-                        (maximum,i,j) = max_value(Board,humanval,cpuval)
+                        (maximum,i,j) = max_value(Board,v,humanval,cpuval)
+                        if maximum<current_max:
+                            v=maximum
+                            (max_row,max_col) = (row,col)
+                            Board.board[row][col] = 'N'
+                            break;
                         if maximum < v:
                             v = maximum
                             (max_row,max_col) = (row,col)
                         Board.board[row][col] = 'N'
+                if v < current_max:
+                    break
             return (v,max_row,max_col)
 
-def max_value(Board,humanval,cpuval):
+def max_value(Board,current_min,humanval,cpuval):
     Board.totalVisit +=1
     if Board.winner() == 'O':
         return (1,-1,-1)
@@ -92,11 +100,18 @@ def max_value(Board,humanval,cpuval):
                 for row in range(3):
                     if Board.board[row][col] == 'N':
                         Board.board[row][col] = cpuval
-                        (minimum,i,j) = min_value(Board,humanval,cpuval)
-                        if v < minimum:
+                        (minimum,i,j) = min_value(Board,v,humanval,cpuval)
+                        if minimum>current_min:
+                            v=minimum
+                            (min_row,min_col) = (row,col)
+                            Board.board[row][col] = 'N'
+                            break;
+                        elif v < minimum:
                             v = minimum
                             (min_row,min_col) = (row,col)
                         Board.board[row][col] = 'N'
+                if v > current_min:
+                    break;
             return (v,min_row,min_col)
 
 def make_minimax_cpu_move(Board,humanval,cpuval):
@@ -112,12 +127,12 @@ def make_simple_cpu_move(board, cpuval):
                 return True
     return False
 
+
 def printHistory(Board):
     print "Output of trace of program in action"
     history = Board.playHistory
     for h in history:
         print str(h[0]) + " : " + str(h[1])
-
 
 def play():
     Board = TicTacToeBoard()
@@ -152,7 +167,6 @@ def play():
         print("You Win!")
     elif(Board.winner()==cpuval):
         print("CPU Wins!")
-
     printHistory(Board)
     print "Total visit : " + str(Board.totalVisit)
 
