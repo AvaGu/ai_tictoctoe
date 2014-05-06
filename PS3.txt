@@ -1,0 +1,12 @@
+1. Implement a tic-tac-toe program that uses Minimax and Alpha-Beta Pruning. See the implementation guidelines below. Include the following:
+a. Your code, including a readme that says which compiler you used and how to run your game.
+b. An output trace of your program in action, with the computer playing as the O player (moving second) in one game and the X player (moving first) in the other (each team member must do his or her own runs).
+c. Describe who within your group performed which piece of the design/programming effort.
+
+
+2. Answer the following questions regarding your program. These answers should be succinct (two or three sentences each), but specific enough that we could almost re-implement your solution based on the answers.
+a. Which part of your code generates the next ply, and how does it work?
+b. What is your evaluation function, and why is it good?
+
+
+3. How will you have to alter your code in order to play Othello? In about one paragraph, describe the changes you'll need to make and where these will occur in the code. Assume we will provide starter code that implements the basic rules of Othello, as we did for Tic Tac Toe.
